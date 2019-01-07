@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="PersonalFinancesPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>tabelas.Pessoas</class>
+    <class>tabelas.CadMunic</class>
+    <class>tabelas.LancamentosCartaoCredito</class>
+    <class>tabelas.LancamentosReceitas</class>
+    <class>tabelas.ContasTipo</class>
+    <class>tabelas.Lancamentos</class>
+    <class>tabelas.CartaoCreditoFaturas</class>
+    <class>tabelas.ContasSaldo</class>
+    <class>tabelas.Contas</class>
+    <class>tabelas.BensTipo</class>
+    <class>tabelas.CartaoCreditoBandeiras</class>
+    <class>tabelas.LancamentosProvisao</class>
+    <class>tabelas.Bank</class>
+    <class>tabelas.Bens</class>
+    <class>tabelas.CartaoCredito</class>
+    <class>tabelas.LancamentosTipo</class>
+    <class>tabelas.LancamentosProvisaoVencimentos</class>
+    <class>tabelas.EconomicGroup</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.2.3:3317/personal_finances?useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="1711Juju"/>
+    </properties>
+  </persistence-unit>
+</persistence>

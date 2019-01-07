@@ -5,7 +5,7 @@
  */
 package personalfinances;
 
-import conn.ConexaoMySQL;
+
 
 /**
  *
@@ -18,15 +18,7 @@ public class PersonalFinances {
      */
     public static void main(String[] args) {
         
-        conn.ConexaoMySQL cn = new ConexaoMySQL();
         
-        try {
-            cn.conecta("localhost", "root", "", 3317);
-            
-            
-        } catch (Exception e) {
-            tools.DefaultMsg.errorMsg(e + "");
-        }
     }
     
 }
