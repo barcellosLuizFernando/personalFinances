@@ -10,6 +10,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 import tabelas.LancamentosTipo;
 import tabelas.dao.LancamentosTipoDAO;
+import telaCadastros.IntFrm_LancamentosOrcamento;
 import telaCadastros.IntFrm_TiposLancamentos;
 
 /**
@@ -281,6 +282,9 @@ public class jDial_PesquisaLancamentoTipo extends javax.swing.JDialog {
                  */
                 if (pai instanceof IntFrm_TiposLancamentos) {
                     IntFrm_TiposLancamentos frm = (IntFrm_TiposLancamentos) pai;
+                    frm.recebeLancamentoTipo(m);
+                } else if (pai instanceof IntFrm_LancamentosOrcamento) {
+                    IntFrm_LancamentosOrcamento frm = (IntFrm_LancamentosOrcamento) pai;
                     frm.recebeLancamentoTipo(m);
                 }
 

@@ -8,31 +8,34 @@ package telaPesquisas;
 import java.awt.event.MouseEvent;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
-import tabelas.Contas;
-import tabelas.dao.ContasDAO;
-import telaCadastros.IntFrm_CadCartaoCredito;
-import telaCadastros.IntFrm_CadContas;
+import personalfinances.LancamentosOrcamento;
+import tabelas.dao.LancamentosOrcamentoDAO;
+import telaCadastros.IntFrm_LancamentosOrcamento;
 
 /**
  *
  * @author ferna
  */
-public class jDial_PesquisaContas extends javax.swing.JDialog {
-
+public class jDial_PesquisaOrcamento extends javax.swing.JDialog {
+    
     public static JInternalFrame pai;
-    private ContasDAO contasDAO;
+    public static String id = null;
+    public static String nome = null;
+    public static String uf = null;
+    public static String cod_ibge = null;
+    private LancamentosOrcamentoDAO lancamentosOrcamentoDAO;
 
     /**
      * Creates new form NewJDialog
      */
-    public jDial_PesquisaContas(JInternalFrame parent, boolean modal) {
+    public jDial_PesquisaOrcamento(JInternalFrame parent, boolean modal) {
         this.pai = parent;
         this.setModal(modal);
         initComponents();
         this.setLocationRelativeTo(this);
-
+        
         incluiPesquisa();
-
+        
     }
 
     /**
@@ -53,7 +56,7 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pesquisa Contas Bancárias");
+        setTitle("Pesquisa Tipos de Lançamentos");
 
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -66,19 +69,12 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Código", "Correntista", "Agência", "Banco", "Conta", "Município", "Encerrada"
+                "Código", "Nome", "Tipo", "Início", "Fim", "Valor"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -95,15 +91,15 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
             jTable1.getColumnModel().getColumn(0).setMinWidth(60);
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(60);
             jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
-            jTable1.getColumnModel().getColumn(2).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(2).setMaxWidth(60);
-            jTable1.getColumnModel().getColumn(4).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(60);
-            jTable1.getColumnModel().getColumn(6).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(6).setMaxWidth(60);
+            jTable1.getColumnModel().getColumn(3).setMinWidth(90);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(90);
+            jTable1.getColumnModel().getColumn(3).setMaxWidth(90);
+            jTable1.getColumnModel().getColumn(4).setMinWidth(90);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(90);
+            jTable1.getColumnModel().getColumn(4).setMaxWidth(90);
+            jTable1.getColumnModel().getColumn(5).setMinWidth(60);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(5).setMaxWidth(60);
         }
 
         jButton1.setText("Incluir");
@@ -144,7 +140,7 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTextField1)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -181,7 +177,7 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
         if (jTable1.getSelectedRowCount() < 1) {
             tools.DefaultMsg.errorMsg("Selecione uma Cidade para continuar!");
         } else {
-
+            
             enviaResultado();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -219,22 +215,14 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaContas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaOrcamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaContas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaOrcamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaContas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaOrcamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaContas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaOrcamento.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -247,7 +235,7 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                jDial_PesquisaContas dialog = new jDial_PesquisaContas(pai, true);
+                jDial_PesquisaOrcamento dialog = new jDial_PesquisaOrcamento(pai, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -270,41 +258,36 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void incluiPesquisa() {
-        contasDAO = new ContasDAO();
+        lancamentosOrcamentoDAO = new LancamentosOrcamentoDAO();
         DefaultTableModel lista = (DefaultTableModel) jTable1.getModel();
-
-        for (Contas m : contasDAO.getContas()) {
+        
+        for (LancamentosOrcamento m : lancamentosOrcamentoDAO.getOrcamento()) {
             lista.addRow(new Object[]{
                 m.getId(),
-                m.getPessoa().getNome(),
-                m.getAgencia(),
-                m.getBank().getTitle(),
-                m.getConta(),
-                m.getCidade().getNome() + " - " + m.getCidade().getUf(),
-                m.getFinished()
-
+                m.getIdPessoa().getNome(),
+                m.getIdTipoLancamento().getTitle(),
+                tools.ManipulaData.dateBRstr(m.getDtInicio()),
+                tools.ManipulaData.dateBRstr(m.getDtFim()),
+                tools.FormatNumbers.numUsToBr(m.getValor())
             });
         }
     }
-
+    
     private void enviaResultado() {
         int id = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-
-        for (Contas m : contasDAO.al_contas) {
+        
+        for (LancamentosOrcamento m : lancamentosOrcamentoDAO.al_orcamento) {
             if (m.getId() == id) {
                 /**
                  * VERIFICA QUEM CHAMOU
                  */
-                if (pai instanceof IntFrm_CadContas) {
-                    IntFrm_CadContas frm = (IntFrm_CadContas) pai;
-                    frm.recebeConta(m);
-                } else if (pai instanceof IntFrm_CadCartaoCredito) {
-                    IntFrm_CadCartaoCredito frm = (IntFrm_CadCartaoCredito) pai;
-                    frm.recebeConta(m);
+                if (pai instanceof IntFrm_LancamentosOrcamento) {
+                    IntFrm_LancamentosOrcamento frm = (IntFrm_LancamentosOrcamento) pai;
+                    frm.recebeLancamentoOrcamento(m);
                 }
-
+                
                 break;
-
+                
             }
         }
         this.dispose();

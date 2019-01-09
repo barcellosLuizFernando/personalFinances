@@ -8,24 +8,23 @@ package telaPesquisas;
 import java.awt.event.MouseEvent;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
-import tabelas.Contas;
-import tabelas.dao.ContasDAO;
+import tabelas.CartaoCredito;
+import tabelas.dao.CartaoCreditoDAO;
 import telaCadastros.IntFrm_CadCartaoCredito;
-import telaCadastros.IntFrm_CadContas;
 
 /**
  *
  * @author ferna
  */
-public class jDial_PesquisaContas extends javax.swing.JDialog {
+public class jDial_PesquisaCartaoCredito extends javax.swing.JDialog {
 
     public static JInternalFrame pai;
-    private ContasDAO contasDAO;
+    private CartaoCreditoDAO ccDAO;
 
     /**
      * Creates new form NewJDialog
      */
-    public jDial_PesquisaContas(JInternalFrame parent, boolean modal) {
+    public jDial_PesquisaCartaoCredito(JInternalFrame parent, boolean modal) {
         this.pai = parent;
         this.setModal(modal);
         initComponents();
@@ -53,7 +52,7 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pesquisa Contas Bancárias");
+        setTitle("Pesquisa Cartão de Crédito");
 
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -66,7 +65,7 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Código", "Correntista", "Agência", "Banco", "Conta", "Município", "Encerrada"
+                "Código", "Correntista", "Agência", "Banco", "Número", "Bandeira", "Cancelado"
             }
         ) {
             Class[] types = new Class [] {
@@ -98,9 +97,9 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
             jTable1.getColumnModel().getColumn(2).setMinWidth(60);
             jTable1.getColumnModel().getColumn(2).setPreferredWidth(60);
             jTable1.getColumnModel().getColumn(2).setMaxWidth(60);
-            jTable1.getColumnModel().getColumn(4).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(60);
+            jTable1.getColumnModel().getColumn(5).setMinWidth(90);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(90);
+            jTable1.getColumnModel().getColumn(5).setMaxWidth(90);
             jTable1.getColumnModel().getColumn(6).setMinWidth(60);
             jTable1.getColumnModel().getColumn(6).setPreferredWidth(60);
             jTable1.getColumnModel().getColumn(6).setMaxWidth(60);
@@ -219,14 +218,30 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaContas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaCartaoCredito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaContas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaCartaoCredito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaContas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaCartaoCredito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaContas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaCartaoCredito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -247,7 +262,7 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                jDial_PesquisaContas dialog = new jDial_PesquisaContas(pai, true);
+                jDial_PesquisaCartaoCredito dialog = new jDial_PesquisaCartaoCredito(pai, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -270,18 +285,18 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void incluiPesquisa() {
-        contasDAO = new ContasDAO();
+        ccDAO = new CartaoCreditoDAO();
         DefaultTableModel lista = (DefaultTableModel) jTable1.getModel();
 
-        for (Contas m : contasDAO.getContas()) {
+        for (CartaoCredito m : ccDAO.getCartaoCredito()) {
             lista.addRow(new Object[]{
                 m.getId(),
-                m.getPessoa().getNome(),
-                m.getAgencia(),
-                m.getBank().getTitle(),
-                m.getConta(),
-                m.getCidade().getNome() + " - " + m.getCidade().getUf(),
-                m.getFinished()
+                m.getIdPessoa().getNome(),
+                m.getIdConta().getAgencia(),
+                m.getIdConta().getBank().getTitle(),
+                m.getNumero(),
+                m.getIdBandeira().getTitle(),
+                m.getCancelado()
 
             });
         }
@@ -290,18 +305,15 @@ public class jDial_PesquisaContas extends javax.swing.JDialog {
     private void enviaResultado() {
         int id = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
 
-        for (Contas m : contasDAO.al_contas) {
+        for (CartaoCredito m : ccDAO.al_cartaocredito) {
             if (m.getId() == id) {
                 /**
                  * VERIFICA QUEM CHAMOU
                  */
-                if (pai instanceof IntFrm_CadContas) {
-                    IntFrm_CadContas frm = (IntFrm_CadContas) pai;
-                    frm.recebeConta(m);
-                } else if (pai instanceof IntFrm_CadCartaoCredito) {
+                if (pai instanceof IntFrm_CadCartaoCredito) {
                     IntFrm_CadCartaoCredito frm = (IntFrm_CadCartaoCredito) pai;
-                    frm.recebeConta(m);
-                }
+                    frm.recebeCartaoCredito(m);
+                } 
 
                 break;
 

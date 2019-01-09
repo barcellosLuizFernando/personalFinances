@@ -8,6 +8,7 @@ package tabelas;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +24,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import personalfinances.LancamentosOrcamento;
 
 /**
  *
@@ -41,6 +43,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "LancamentosTipo.findByCreatedAt", query = "SELECT l FROM LancamentosTipo l WHERE l.createdAt = :createdAt")
     , @NamedQuery(name = "LancamentosTipo.findByUpdatedAt", query = "SELECT l FROM LancamentosTipo l WHERE l.updatedAt = :updatedAt")})
 public class LancamentosTipo implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoLancamento")
+    private List<LancamentosOrcamento> lancamentosOrcamentoList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -196,6 +201,15 @@ public class LancamentosTipo implements Serializable {
     @Override
     public String toString() {
         return "tabelas.LancamentosTipo[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<LancamentosOrcamento> getLancamentosOrcamentoList() {
+        return lancamentosOrcamentoList;
+    }
+
+    public void setLancamentosOrcamentoList(List<LancamentosOrcamento> lancamentosOrcamentoList) {
+        this.lancamentosOrcamentoList = lancamentosOrcamentoList;
     }
 
 }

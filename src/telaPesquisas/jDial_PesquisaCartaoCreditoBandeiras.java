@@ -10,6 +10,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 import tabelas.CartaoCreditoBandeiras;
 import tabelas.dao.CartaoCredito_BandeirasDAO;
+import telaCadastros.IntFrm_CadCartaoCredito;
 import telaCadastros.IntFrm_CartaoCredito_Bandeiras;
 
 
@@ -53,7 +54,7 @@ public class jDial_PesquisaCartaoCreditoBandeiras extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pesquisa Tipos de Lançamentos");
+        setTitle("Pesquisa Operadoras de Cartão de Crédito");
 
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -128,7 +129,7 @@ public class jDial_PesquisaCartaoCreditoBandeiras extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTextField1)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -275,6 +276,10 @@ public class jDial_PesquisaCartaoCreditoBandeiras extends javax.swing.JDialog {
                  */
                 if (pai instanceof IntFrm_CartaoCredito_Bandeiras) {
                     IntFrm_CartaoCredito_Bandeiras frm = (IntFrm_CartaoCredito_Bandeiras) pai;
+                    frm.recebe_ccB(m);
+                } 
+                if (pai instanceof IntFrm_CadCartaoCredito) {
+                    IntFrm_CadCartaoCredito frm = (IntFrm_CadCartaoCredito) pai;
                     frm.recebe_ccB(m);
                 } 
 

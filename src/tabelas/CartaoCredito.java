@@ -44,6 +44,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "CartaoCredito.findByUpdatedAt", query = "SELECT c FROM CartaoCredito c WHERE c.updatedAt = :updatedAt")})
 public class CartaoCredito implements Serializable {
 
+    @Basic(optional = false)
+    @Column(name = "cancelado")
+    private boolean cancelado;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,7 +66,7 @@ public class CartaoCredito implements Serializable {
     private double limite;
     @Basic(optional = false)
     @Column(name = "tipo")
-    private boolean tipo;
+    private int tipo;
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -90,7 +94,7 @@ public class CartaoCredito implements Serializable {
         this.id = id;
     }
 
-    public CartaoCredito(Integer id, String numero, Date dtVencimento, double limite, boolean tipo) {
+    public CartaoCredito(Integer id, String numero, Date dtVencimento, double limite, int tipo) {
         this.id = id;
         this.numero = numero;
         this.dtVencimento = dtVencimento;
@@ -130,11 +134,11 @@ public class CartaoCredito implements Serializable {
         this.limite = limite;
     }
 
-    public boolean getTipo() {
+    public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(boolean tipo) {
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
 
@@ -219,6 +223,14 @@ public class CartaoCredito implements Serializable {
     @Override
     public String toString() {
         return "tabelas.CartaoCredito[ id=" + id + " ]";
+    }
+
+    public boolean getCancelado() {
+        return cancelado;
+    }
+
+    public void setCancelado(boolean cancelado) {
+        this.cancelado = cancelado;
     }
     
 }

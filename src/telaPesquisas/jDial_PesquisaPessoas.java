@@ -10,15 +10,17 @@ import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 import tabelas.Pessoas;
 import tabelas.dao.PessoasDAO;
+import telaCadastros.IntFrm_CadCartaoCredito;
 import telaCadastros.IntFrm_CadContas;
 import telaCadastros.IntFrm_CadPessoas;
+import telaCadastros.IntFrm_LancamentosOrcamento;
 
 /**
  *
  * @author ferna
  */
 public class jDial_PesquisaPessoas extends javax.swing.JDialog {
-
+    
     public static JInternalFrame pai;
     public static String id = null;
     public static String nome = null;
@@ -34,9 +36,9 @@ public class jDial_PesquisaPessoas extends javax.swing.JDialog {
         this.setModal(modal);
         initComponents();
         this.setLocationRelativeTo(this);
-
+        
         incluiPesquisa();
-
+        
     }
 
     /**
@@ -176,9 +178,9 @@ public class jDial_PesquisaPessoas extends javax.swing.JDialog {
         if (jTable1.getSelectedRowCount() < 1) {
             tools.DefaultMsg.errorMsg("Selecione uma Pessoa para continuar!");
         } else {
-
+            
             enviaResultado();
-
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -256,7 +258,7 @@ public class jDial_PesquisaPessoas extends javax.swing.JDialog {
     private void incluiPesquisa() {
         pessoasDAO = new PessoasDAO();
         DefaultTableModel lista = (DefaultTableModel) jTable1.getModel();
-
+        
         for (Pessoas p : pessoasDAO.getPessoas()) {
             lista.addRow(new Object[]{
                 p.getId(),
@@ -266,34 +268,39 @@ public class jDial_PesquisaPessoas extends javax.swing.JDialog {
             });
         }
     }
-
+    
     private void enviaResultado() {
         System.out.println("Enviando Resultados.");
         int id = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+        
+        System.out.println("ID Selecionado: " + id);
+        System.out.println("Pessoas na Lista: " + pessoasDAO.al_Pessoas.size());
+        
+        for (Pessoas p : pessoasDAO.al_Pessoas) {
+            if (p.getId() == id) {
 
-            System.out.println("ID Selecionado: " + id);
-            System.out.println("Pessoas na Lista: " + pessoasDAO.al_Pessoas.size());
-
-            
-            for (Pessoas p : pessoasDAO.al_Pessoas) {
-                if (p.getId() == id) {
-
-                    /**
-                     * DEFINE PARA QUAL FRAME IRÁ MANDAR A RESPOSTA DA CONSULTA
-                     */
-                    if (pai instanceof IntFrm_CadPessoas) {
-                        IntFrm_CadPessoas frm_pessoas = (IntFrm_CadPessoas) pai;
-                        frm_pessoas.recebePessoa(p);
-                    } else if (pai instanceof IntFrm_CadContas) {
-                        IntFrm_CadContas frm = (IntFrm_CadContas) pai;
-                        frm.recebePessoa(p);
-                    }
-
-                    System.out.println("Pessoa Selecionada: " + p.getNome());
-                    break;
+                /**
+                 * DEFINE PARA QUAL FRAME IRÁ MANDAR A RESPOSTA DA CONSULTA
+                 */
+                if (pai instanceof IntFrm_CadPessoas) {
+                    IntFrm_CadPessoas frm_pessoas = (IntFrm_CadPessoas) pai;
+                    frm_pessoas.recebePessoa(p);
+                } else if (pai instanceof IntFrm_CadContas) {
+                    IntFrm_CadContas frm = (IntFrm_CadContas) pai;
+                    frm.recebePessoa(p);
+                } else if (pai instanceof IntFrm_CadCartaoCredito) {
+                    IntFrm_CadCartaoCredito frm = (IntFrm_CadCartaoCredito) pai;
+                    frm.recebePessoa(p);
+                } else if (pai instanceof IntFrm_LancamentosOrcamento) {
+                    IntFrm_LancamentosOrcamento frm = (IntFrm_LancamentosOrcamento) pai;
+                    frm.recebePessoa(p);
                 }
+                
+                System.out.println("Pessoa Selecionada: " + p.getNome());
+                break;
             }
-
-            this.dispose();
+        }
+        
+        this.dispose();
     }
 }

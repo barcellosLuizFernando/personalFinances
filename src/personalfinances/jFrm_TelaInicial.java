@@ -17,6 +17,7 @@ import telaCadastros.IntFrm_CadPessoas;
 import telaCadastros.IntFrm_CartaoCredito_Bandeiras;
 import telaCadastros.IntFrm_ContasTipo;
 import telaCadastros.IntFrm_EconomicGroup;
+import telaCadastros.IntFrm_LancamentosOrcamento;
 import telaCadastros.IntFrm_TiposLancamentos;
 
 /**
@@ -64,6 +65,7 @@ public class jFrm_TelaInicial extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -179,6 +181,15 @@ public class jFrm_TelaInicial extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu3.setText("Movimentos");
+
+        jMenuItem12.setText("Orçamento");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem12);
+
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Relatórios");
@@ -238,6 +249,10 @@ public class jFrm_TelaInicial extends javax.swing.JFrame {
         abreTelaInterna(new IntFrm_CadCartaoCredito());        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        abreTelaInterna(new IntFrm_LancamentosOrcamento());        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -286,6 +301,7 @@ public class jFrm_TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

@@ -74,9 +74,11 @@ public class EconomicGroupDAO {
     public EconomicGroup getEconomicGroup(int id) {
         EconomicGroup ec = null;
 
-        for (EconomicGroup e : getEconomicGroupMulti(id)) {
-            ec = e;
-            break;
+        if (id > 0) {
+            for (EconomicGroup e : getEconomicGroupMulti(id)) {
+                ec = e;
+                break;
+            }
         }
 
         return ec;

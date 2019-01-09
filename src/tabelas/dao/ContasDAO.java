@@ -39,7 +39,11 @@ public class ContasDAO {
         stmt.setString(3, ct.getAgencia());
         stmt.setString(4, ct.getConta());
         stmt.setInt(5, ct.getCidade().getId());
-        stmt.setInt(6, ct.getEconomicGroup().getId());
+        if (ct.getEconomicGroup() == null) {
+            stmt.setString(6, null);
+        } else {
+            stmt.setInt(6, ct.getEconomicGroup().getId());
+        }
         stmt.setBoolean(7, ct.getFinished());
         stmt.setInt(8, ct.getAccount().getId());
         stmt.executeUpdate();
@@ -62,7 +66,11 @@ public class ContasDAO {
         stmt.setString(3, ct.getAgencia());
         stmt.setString(4, ct.getConta());
         stmt.setInt(5, ct.getCidade().getId());
-        stmt.setInt(6, ct.getEconomicGroup().getId());
+        if (ct.getEconomicGroup() == null) {
+            stmt.setString(6, null);
+        } else {
+            stmt.setInt(6, ct.getEconomicGroup().getId());
+        }
         stmt.setBoolean(7, ct.getFinished());
         stmt.setInt(8, ct.getAccount().getId());
         stmt.setInt(9, ct.getId());
@@ -125,13 +133,13 @@ public class ContasDAO {
                 ct.setCidade(mDAO.getMunicipio(rs.getInt("cidade")));
                 ct.setAccount(ctDAO.getContasTipo(rs.getInt("account")));
                 ct.setEconomicGroup(ecDAO.getEconomicGroup(rs.getInt("economic_group")));
-                
+
                 al_contas.add(ct);
 
             }
 
         } catch (SQLException e) {
-            
+
         }
         return al_contas;
     }

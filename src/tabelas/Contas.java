@@ -7,7 +7,9 @@ package tabelas;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,6 +42,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Contas.findByUpdatedAt", query = "SELECT c FROM Contas c WHERE c.updatedAt = :updatedAt")
     , @NamedQuery(name = "Contas.findByFinished", query = "SELECT c FROM Contas c WHERE c.finished = :finished")})
 public class Contas implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idConta")
+    private List<CartaoCredito> cartaoCreditoList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -201,6 +208,15 @@ public class Contas implements Serializable {
     @Override
     public String toString() {
         return "tabelas.Contas[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<CartaoCredito> getCartaoCreditoList() {
+        return cartaoCreditoList;
+    }
+
+    public void setCartaoCreditoList(List<CartaoCredito> cartaoCreditoList) {
+        this.cartaoCreditoList = cartaoCreditoList;
     }
     
 }

@@ -30,7 +30,7 @@ import telaPesquisas.jDial_PesquisaPessoas;
  * @author ferna
  */
 public class IntFrm_CadContas extends javax.swing.JInternalFrame {
-    
+
     private Bank bank;
     private ContasTipo contasTipo;
     private Pessoas pessoa;
@@ -521,10 +521,10 @@ public class IntFrm_CadContas extends javax.swing.JInternalFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if ("".equals(jTxtId.getText())) {
-            
+
             gravaDados(INCLUIR);
         } else {
-            
+
             gravaDados(ALTERAR);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -603,30 +603,30 @@ public class IntFrm_CadContas extends javax.swing.JInternalFrame {
     public void recebeBank(Bank m) {
         this.bank = m;
     }
-    
+
     public void recebeContaTipo(ContasTipo m) {
         this.contasTipo = m;
     }
-    
+
     public void recebePessoa(Pessoas p) {
         System.out.println("Recebendo Pessoa: " + p);
         this.pessoa = p;
     }
-    
+
     public void recebeMunicipio(CadMunic m) {
         this.municipio = m;
     }
-    
+
     public void recebeConta(Contas c) {
         this.cta = c;
     }
-    
+
     private void gravaDados(int action) {
         try {
             if (action > INCLUIR && jTxtId.getText().equals("")) {
                 throw new SQLException("Informe um cadastro para continuar.");
             }
-            
+
             Contas ct = new Contas();
             try {
                 ct.setId(Integer.parseInt(jTxtId.getText()));
@@ -636,54 +636,60 @@ public class IntFrm_CadContas extends javax.swing.JInternalFrame {
             ct.setAgencia(jTxtAgencia.getText());
             ct.setConta(jTxtConta.getText());
             ct.setFinished(jCheckBox1.isSelected());
-            
+
             try {
                 ct.setPessoa(new Pessoas(Integer.parseInt(jTxtIdPessoa.getText())));
                 ct.setBank(new Bank(Integer.parseInt(jTxtIdBank.getText())));
                 ct.setCidade(new CadMunic(Integer.parseInt(jTxtIdMunicipio.getText())));
                 ct.setAccount(new ContasTipo(Integer.parseInt(jTxtIdTipo.getText())));
-                ct.setEconomicGroup(new EconomicGroup(Integer.parseInt(jTxtIdEconomicGroup.getText())));
+
+                if ("".equals(jTxtIdEconomicGroup.getText())) {
+                    ct.setEconomicGroup(null);
+                } else {
+                    ct.setEconomicGroup(new EconomicGroup(Integer.parseInt(jTxtIdEconomicGroup.getText())));
+                }
+
             } catch (Exception e) {
                 throw new UnsupportedOperationException("Preencha todos os campos para continuar!");
             }
-            
+
             ContasDAO ctDAO = new ContasDAO();
-            
+
             switch (action) {
                 case INCLUIR:
                     ctDAO.create(ct);
                     jTxtId.setText(ct.getId() + "");
-                    
+
                     break;
                 case ALTERAR:
                     ctDAO.update(ct);
                     break;
-                
+
                 case EXCLUIR:
                     ctDAO.delete(ct);
-                    
+
                     break;
             }
             conn.ConexaoMySQL.finalizarTransacao(true);
             tools.DefaultMsg.saveDataSuccessfull();
             tools.ClearFields.ClearFields(jPanel1);
-            
+
         } catch (Exception e) {
             conn.ConexaoMySQL.finalizarTransacao(false);
             tools.DefaultMsg.errorMsg(e.getMessage());
         }
     }
-    
+
     private void incluiPesquisa(int x) {
         switch (x) {
             case PESQUISA_CONTA:
                 jDial_PesquisaContas dContas = new jDial_PesquisaContas(this, true);
                 dContas.setVisible(true);
-                
+
                 incluiPesquisa(cta);
-                
+
                 break;
-            
+
             case PESQUISA_CONTA_ID:
                 cta = null;
                 if (!"".equals(jTxtId.getText())) {
@@ -691,23 +697,23 @@ public class IntFrm_CadContas extends javax.swing.JInternalFrame {
                     incluiPesquisa(ctDAO.getContas(Integer.parseInt(jTxtId.getText())));
                 }
                 break;
-            
+
             case PESQUISA_ECONOMIC_GROUP:
                 jDial_PesquisaEconomicGroup dEcon = new jDial_PesquisaEconomicGroup(this, true);
                 dEcon.setVisible(true);
-                
+
                 incluiPesquisa(economicGroup);
                 break;
-            
+
             case PESQUISA_ECONOMIC_GROUP_ID:
                 economicGroup = null;
                 if (!"".equals(jTxtIdEconomicGroup.getText())) {
                     EconomicGroupDAO ecDAO = new EconomicGroupDAO();
                     incluiPesquisa(ecDAO.getEconomicGroup(Integer.parseInt(jTxtIdEconomicGroup.getText())));
                 }
-                
+
                 break;
-            
+
             case PESQUISA_TIPO_ID:
                 contasTipo = null;
                 if (!"".equals(jTxtIdTipo.getText())) {
@@ -715,16 +721,16 @@ public class IntFrm_CadContas extends javax.swing.JInternalFrame {
                     incluiPesquisa(tDAO.getContasTipo(Integer.parseInt(jTxtIdTipo.getText())));
                 }
                 break;
-            
+
             case PESQUISA_TIPO:
                 contasTipo = null;
                 jDial_PesquisaContasTipo dTipo = new jDial_PesquisaContasTipo(this, true);
                 dTipo.setVisible(true);
-                
+
                 incluiPesquisa(contasTipo);
-                
+
                 break;
-            
+
             case PESQUISA_MUNICIPIO_ID:
                 municipio = null;
                 if (!"".equals(jTxtIdMunicipio.getText())) {
@@ -732,25 +738,25 @@ public class IntFrm_CadContas extends javax.swing.JInternalFrame {
                     incluiPesquisa(mDAO.getMunicipio(Integer.parseInt(jTxtIdMunicipio.getText())));
                 }
                 break;
-            
+
             case PESQUISA_MUNICIPIO:
                 municipio = null;
-                
+
                 jDial_PesquisaMunicipio dMun = new jDial_PesquisaMunicipio(this, true);
                 dMun.setVisible(true);
-                
+
                 incluiPesquisa(municipio);
-                
+
                 break;
-            
+
             case PESQUISA_BANCO:
                 bank = null;
-                
+
                 jDial_PesquisaBank pBank = new jDial_PesquisaBank(this, true);
                 pBank.setVisible(true);
-                
+
                 incluiPesquisa(bank);
-                
+
                 break;
             case PESQUISA_BANCO_ID:
                 bank = null;
@@ -760,14 +766,14 @@ public class IntFrm_CadContas extends javax.swing.JInternalFrame {
                 }
                 break;
             case PESQUISA_PESSOA:
-                
+
                 pessoa = null;
-                
+
                 jDial_PesquisaPessoas dPessoa = new jDial_PesquisaPessoas(this, true);
                 dPessoa.setVisible(true);
-                
+
                 incluiPesquisa(pessoa);
-                
+
                 break;
             case PESQUISA_PESSOA_ID:
                 pessoa = null;
@@ -775,112 +781,112 @@ public class IntFrm_CadContas extends javax.swing.JInternalFrame {
                     PessoasDAO pDAO = new PessoasDAO();
                     incluiPesquisa(pDAO.getPessoas(Integer.parseInt(jTxtIdPessoa.getText())));
                 }
-                
+
                 break;
         }
-        
+
     }
-    
+
     private void incluiPesquisa(CadMunic mun) {
-        
+
         jTxtIdMunicipio.setText("");
         jTxtNomeMunicipio.setText("");
-        
+
         try {
             if (mun.getId() == null) {
                 throw new UnsupportedOperationException();
             }
-            
+
             jTxtIdMunicipio.setText(mun.getId() + "");
             jTxtNomeMunicipio.setText(mun.getNome() + " - " + mun.getUf());
-            
+
         } catch (Exception e) {
-            
+
         }
-        
+
     }
-    
+
     private void incluiPesquisa(Pessoas pessoa) {
         jTxtIdPessoa.setText("");
         jTxtNomePessoa.setText("");
-        
+
         try {
-            
+
             if (pessoa.getId() == null) {
                 throw new UnsupportedOperationException();
             }
-            
+
             jTxtIdPessoa.setText(pessoa.getId() + "");
             jTxtNomePessoa.setText(pessoa.getNome());
-            
+
         } catch (Exception e) {
-            
+
         }
     }
-    
+
     private void incluiPesquisa(Bank bank) {
         jTxtIdBank.setText("");
         jTxtNomeBanco.setText("");
-        
+
         try {
-            
+
             if (bank.getId() == null) {
                 throw new UnsupportedOperationException();
             }
-            
+
             jTxtNomeBanco.setText(bank.getTitle());
             jTxtIdBank.setText(bank.getId() + "");
         } catch (Exception e) {
-            
+
         }
-        
+
     }
-    
+
     private void incluiPesquisa(ContasTipo ct) {
         jTxtIdTipo.setText("");
         jTxtNomeTipo.setText("");
-        
+
         try {
-            
+
             if (ct.getId() == null) {
                 throw new UnsupportedOperationException();
             }
             jTxtIdTipo.setText(ct.getId() + "");
             jTxtNomeTipo.setText(ct.getTitle());
         } catch (Exception e) {
-            
+
         }
-        
+
     }
-    
+
     public void recebeEconomicGroup(EconomicGroup m) {
         this.economicGroup = m;
     }
-    
+
     private void incluiPesquisa(EconomicGroup economicGroup) {
         jTxtIdEconomicGroup.setText("");
         jTxtNomeEconomicGroup.setText("");
         try {
-            
+
             if (economicGroup.getId() == null) {
                 throw new UnsupportedOperationException();
             }
             jTxtIdEconomicGroup.setText(economicGroup.getId() + "");
             jTxtNomeEconomicGroup.setText(economicGroup.getTitle());
-            
+
         } catch (Exception e) {
-            
+
         }
     }
-    
+
     private void incluiPesquisa(Contas contas) {
         tools.ClearFields.ClearFields(jPanel1);
-        
+
         try {
             if (contas.getId() == null) {
                 throw new UnsupportedOperationException();
             }
-            
+
             jTxtId.setText(contas.getId() + "");
             jTxtIdPessoa.setText(contas.getPessoa().getId() + "");
             jTxtNomePessoa.setText(contas.getPessoa().getNome());
@@ -895,10 +901,9 @@ public class IntFrm_CadContas extends javax.swing.JInternalFrame {
             jTxtIdEconomicGroup.setText(contas.getEconomicGroup().getId() + "");
             jTxtNomeEconomicGroup.setText(contas.getEconomicGroup().getTitle());
             jCheckBox1.setSelected(contas.getFinished());
-            
+
         } catch (Exception e) {
-            
-            
+
         }
     }
 }

@@ -6,12 +6,41 @@
 package telaCadastros;
 
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import tabelas.CartaoCredito;
+import tabelas.CartaoCreditoBandeiras;
+import tabelas.Contas;
+import tabelas.Pessoas;
+import tabelas.dao.CartaoCreditoDAO;
+import tabelas.dao.CartaoCredito_BandeirasDAO;
+import tabelas.dao.ContasDAO;
+import tabelas.dao.PessoasDAO;
+import telaPesquisas.jDial_PesquisaCartaoCredito;
+import telaPesquisas.jDial_PesquisaCartaoCreditoBandeiras;
+import telaPesquisas.jDial_PesquisaContas;
+import telaPesquisas.jDial_PesquisaPessoas;
 
 /**
  *
  * @author ferna
  */
 public class IntFrm_CadCartaoCredito extends javax.swing.JInternalFrame {
+
+    private Pessoas pessoa;
+    private Contas contas;
+    private CartaoCreditoBandeiras ccBandeira;
+    private CartaoCredito cCredito;
+    private final int INCLUIR = 1;
+    private final int ALTERAR = 2;
+    private final int EXCLUIR = 3;
+    private final int PESQUISAR_CARTAO = 1;
+    private final int PESQUISAR_CARTAO_ID = 11;
+    private final int PESQUISAR_PESSOA = 2;
+    private final int PESQUISAR_PESSOA_ID = 22;
+    private final int PESQUISAR_CONTA = 3;
+    private final int PESQUISAR_CONTA_ID = 33;
+    private final int PESQUISAR_BANDEIRA = 4;
+    private final int PESQUISAR_BANDEIRA_ID = 44;
 
     /**
      * Creates new form IntFrm_CadCartaoCredito
@@ -29,73 +58,163 @@ public class IntFrm_CadCartaoCredito extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new tools.JNumberField();
+        jTxtId = new tools.JNumberField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new tools.JNumberField();
-        jTextField3 = new javax.swing.JTextField();
+        jTxtIdPessoa = new tools.JNumberField();
+        jTxtNomePessoa = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTextField4 = new tools.JNumberField();
-        jTextField5 = new javax.swing.JTextField();
+        jTxtIdCtaVinculada = new tools.JNumberField();
+        jTxtNomeContaVinculada = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
-        jTextField6 = new tools.JNumberField();
-        jTextField7 = new javax.swing.JTextField();
+        jTxtIdBandeira = new tools.JNumberField();
+        jTxtNomeBandeira = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField(tools.MascaraTextField.dataBR());
+        jFtxtDataVencimento = new javax.swing.JFormattedTextField(tools.MascaraTextField.dataBR());
         jLabel7 = new javax.swing.JLabel();
-        jTextField9 = new tools.JNumberFormatField99(2);
+        jTxtLimite = new tools.JNumberFormatField99(2);
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jTextField10 = new tools.JNumberField();
+        jTxtNumero = new tools.JNumberField();
         jPanel2 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
 
+        jMenuItem1.setText("Copiar");
+        jMenuItem1.setEnabled(false);
+        jPopupMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Colar");
+        jMenuItem2.setEnabled(false);
+        jPopupMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Excluir");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem3);
+
         setClosable(true);
         setTitle("Cartões de Crédito");
 
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jPanel1MouseReleased(evt);
+            }
+        });
+
         jLabel1.setText("Código");
+
+        jTxtId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTxtIdFocusLost(evt);
+            }
+        });
+        jTxtId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxtIdKeyTyped(evt);
+            }
+        });
 
         jLabel2.setText("Pessoa");
 
-        jTextField3.setEnabled(false);
+        jTxtIdPessoa.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTxtIdPessoaFocusLost(evt);
+            }
+        });
+        jTxtIdPessoa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxtIdPessoaKeyTyped(evt);
+            }
+        });
+
+        jTxtNomePessoa.setEnabled(false);
 
         jButton1.setText("...");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Conta Vinculada");
 
-        jTextField5.setEnabled(false);
+        jTxtIdCtaVinculada.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTxtIdCtaVinculadaFocusLost(evt);
+            }
+        });
+        jTxtIdCtaVinculada.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxtIdCtaVinculadaKeyTyped(evt);
+            }
+        });
+
+        jTxtNomeContaVinculada.setEnabled(false);
 
         jButton2.setText("...");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("...");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("Cancelado");
 
         jLabel4.setText("Bandeira");
 
-        jTextField7.setEnabled(false);
+        jTxtIdBandeira.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTxtIdBandeiraFocusLost(evt);
+            }
+        });
+        jTxtIdBandeira.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTxtIdBandeiraKeyTyped(evt);
+            }
+        });
+
+        jTxtNomeBandeira.setEnabled(false);
 
         jButton4.setText("...");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Data Vencimento");
 
-        jFormattedTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jFtxtDataVencimento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jFormattedTextField1KeyReleased(evt);
+                jFtxtDataVencimentoKeyReleased(evt);
             }
         });
 
         jLabel7.setText("Limite");
 
-        jTextField9.setText("0");
+        jTxtLimite.setText("0");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CRÉDITO", "DÉBITO", "MÚLTIPLO" }));
 
@@ -108,53 +227,51 @@ public class IntFrm_CadCartaoCredito extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtIdPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3)
+                .addComponent(jTxtNomePessoa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
-                .addGap(155, 155, 155))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField10)
+                .addComponent(jTxtNumero)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTxtLimite, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtIdBandeira, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTxtNomeBandeira, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jComboBox1, 0, 330, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTxtIdCtaVinculada, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jTxtNomeContaVinculada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTxtId, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(4, 4, 4)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(jFtxtDataVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBox1)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -162,42 +279,47 @@ public class IntFrm_CadCartaoCredito extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtIdPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtNomePessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtIdCtaVinculada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtNomeContaVinculada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtLimite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtIdBandeira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtNomeBandeira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFtxtDataVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton5.setText("Gravar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Cancelar");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -267,11 +389,87 @@ public class IntFrm_CadCartaoCredito extends javax.swing.JInternalFrame {
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jFormattedTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField1KeyReleased
+    private void jFtxtDataVencimentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFtxtDataVencimentoKeyReleased
         if (KeyEvent.VK_DELETE == evt.getKeyCode()) {
-            jFormattedTextField1.setValue(null);
+            jFtxtDataVencimento.setValue(null);
         }// TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField1KeyReleased
+    }//GEN-LAST:event_jFtxtDataVencimentoKeyReleased
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if ("".equals(jTxtId.getText())) {
+            gravaDados(INCLUIR);
+        } else {
+            gravaDados(ALTERAR);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseReleased
+        if (evt.isPopupTrigger()) {
+            jPopupMenu1.show(this, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jPanel1MouseReleased
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        gravaDados(EXCLUIR);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jTxtIdPessoaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtIdPessoaKeyTyped
+        jTxtNomePessoa.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_jTxtIdPessoaKeyTyped
+
+    private void jTxtIdCtaVinculadaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtIdCtaVinculadaKeyTyped
+        jTxtNomeContaVinculada.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_jTxtIdCtaVinculadaKeyTyped
+
+    private void jTxtIdBandeiraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtIdBandeiraKeyTyped
+        jTxtNomeBandeira.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_jTxtIdBandeiraKeyTyped
+
+    private void jTxtIdPessoaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtIdPessoaFocusLost
+        if ("".equals(jTxtNomePessoa.getText())) {
+            incluiPesquisa(PESQUISAR_PESSOA_ID);
+        }
+    }//GEN-LAST:event_jTxtIdPessoaFocusLost
+
+    private void jTxtIdCtaVinculadaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtIdCtaVinculadaFocusLost
+        if ("".equals(jTxtNomeContaVinculada.getText())) {
+            incluiPesquisa(PESQUISAR_CONTA_ID);
+        }
+// TODO add your handling code here:
+    }//GEN-LAST:event_jTxtIdCtaVinculadaFocusLost
+
+    private void jTxtIdBandeiraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtIdBandeiraFocusLost
+        if ("".equals(jTxtNomeBandeira.getText())) {
+            incluiPesquisa(PESQUISAR_BANDEIRA_ID);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTxtIdBandeiraFocusLost
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        incluiPesquisa(PESQUISAR_PESSOA);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        incluiPesquisa(PESQUISAR_CONTA);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        incluiPesquisa(PESQUISAR_BANDEIRA);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        incluiPesquisa(PESQUISAR_CARTAO);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTxtIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTxtIdKeyTyped
+        String id = jTxtId.getText();
+        tools.ClearFields.ClearFields(jPanel1);
+        jTxtId.setText(id);
+    }//GEN-LAST:event_jTxtIdKeyTyped
+
+    private void jTxtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtIdFocusLost
+        incluiPesquisa(PESQUISAR_CARTAO_ID);
+    }//GEN-LAST:event_jTxtIdFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -284,7 +482,7 @@ public class IntFrm_CadCartaoCredito extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JFormattedTextField jFtxtDataVencimento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -292,16 +490,200 @@ public class IntFrm_CadCartaoCredito extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JTextField jTxtId;
+    private javax.swing.JTextField jTxtIdBandeira;
+    private javax.swing.JTextField jTxtIdCtaVinculada;
+    private javax.swing.JTextField jTxtIdPessoa;
+    private javax.swing.JTextField jTxtLimite;
+    private javax.swing.JTextField jTxtNomeBandeira;
+    private javax.swing.JTextField jTxtNomeContaVinculada;
+    private javax.swing.JTextField jTxtNomePessoa;
+    private javax.swing.JTextField jTxtNumero;
     // End of variables declaration//GEN-END:variables
+
+    public void recebePessoa(Pessoas p) {
+        this.pessoa = p;
+    }
+
+    public void recebeConta(Contas ct) {
+        this.contas = ct;
+    }
+
+    public void recebe_ccB(CartaoCreditoBandeiras ccB) {
+        this.ccBandeira = ccB;
+    }
+
+    public void recebeCartaoCredito(CartaoCredito cc) {
+        this.cCredito = cc;
+    }
+
+    public void gravaDados(int action) {
+        try {
+            if (action > INCLUIR && jTxtId.getText().equals("")) {
+                throw new SQLException("Informe um cadastro para continuar.");
+            }
+            CartaoCredito cc = new CartaoCredito();
+            CartaoCreditoDAO ccDAO = new CartaoCreditoDAO();
+            try {
+                cc.setId(Integer.parseInt(jTxtId.getText()));
+            } catch (Exception e) {
+                cc.setId(0);
+            }
+            try {
+                cc.setIdPessoa(new Pessoas(Integer.parseInt(jTxtIdPessoa.getText())));
+                cc.setIdBandeira(new CartaoCreditoBandeiras(Integer.parseInt(jTxtIdBandeira.getText())));
+                cc.setIdConta(new Contas(Integer.parseInt(jTxtIdCtaVinculada.getText())));
+            } catch (Exception e) {
+                throw new UnsupportedOperationException("Preencha todos os campos para continuar!");
+            }
+            cc.setNumero(jTxtNumero.getText());
+            cc.setDtVencimento(tools.ManipulaData.parseBrToDate(jFtxtDataVencimento.getText()));
+            cc.setLimite(Double.parseDouble(jTxtLimite.getText().replace(".", "").replace(",", ".")));
+            cc.setTipo(jComboBox1.getSelectedIndex());
+            cc.setCancelado(jCheckBox1.isSelected());
+
+            switch (action) {
+                case INCLUIR:
+                    ccDAO.create(cc);
+                    jTxtId.setText(cc.getId() + "");
+                    break;
+
+                case ALTERAR:
+                    ccDAO.update(cc);
+                    break;
+
+                case EXCLUIR:
+                    ccDAO.delete(cc);
+                    break;
+            }
+            conn.ConexaoMySQL.finalizarTransacao(true);
+            tools.DefaultMsg.saveDataSuccessfull();
+            tools.ClearFields.ClearFields(jPanel1);
+        } catch (Exception e) {
+            conn.ConexaoMySQL.finalizarTransacao(false);
+            tools.DefaultMsg.errorMsg(e.getMessage());
+
+        }
+    }
+
+    private void incluiPesquisa(int action) {
+        switch (action) {
+            case PESQUISAR_CARTAO_ID:
+                if (!"".equals(jTxtId.getText())) {
+                    CartaoCreditoDAO ccDAO = new CartaoCreditoDAO();
+                    incluiPesquisa(ccDAO.getCartaoCredito(Integer.parseInt(jTxtId.getText())));
+                }
+                break;
+            case PESQUISAR_CARTAO:
+                jDial_PesquisaCartaoCredito dCC = new jDial_PesquisaCartaoCredito(this, true);
+                dCC.setVisible(true);
+                incluiPesquisa(cCredito);
+                break;
+            case PESQUISAR_BANDEIRA:
+                jDial_PesquisaCartaoCreditoBandeiras dCcB = new jDial_PesquisaCartaoCreditoBandeiras(this, true);
+                dCcB.setVisible(true);
+                incluiPesquisa(ccBandeira);
+                break;
+            case PESQUISAR_CONTA:
+                jDial_PesquisaContas dContas = new jDial_PesquisaContas(this, true);
+                dContas.setVisible(true);
+                incluiPesquisa(contas);
+                break;
+            case PESQUISAR_PESSOA:
+                jDial_PesquisaPessoas dPessoa = new jDial_PesquisaPessoas(this, true);
+                dPessoa.setVisible(true);
+                incluiPesquisa(pessoa);
+                break;
+
+            case PESQUISAR_PESSOA_ID:
+                if (!"".equals(jTxtIdPessoa.getText())) {
+                    PessoasDAO pDAO = new PessoasDAO();
+                    incluiPesquisa(pDAO.getPessoas(Integer.parseInt(jTxtIdPessoa.getText())));
+                }
+                break;
+            case PESQUISAR_BANDEIRA_ID:
+                if (!"".equals(jTxtIdBandeira.getText())) {
+                    CartaoCredito_BandeirasDAO ccBDAO = new CartaoCredito_BandeirasDAO();
+                    incluiPesquisa(ccBDAO.getCartaoCreditoBandeiras(Integer.parseInt(jTxtIdBandeira.getText())));
+                }
+                break;
+
+            case PESQUISAR_CONTA_ID:
+                if (!"".equals(jTxtIdCtaVinculada.getText())) {
+                    ContasDAO ctDAO = new ContasDAO();
+                    incluiPesquisa(ctDAO.getContas(Integer.parseInt(jTxtIdCtaVinculada.getText())));
+
+                }
+                break;
+        }
+    }
+
+    private void incluiPesquisa(CartaoCreditoBandeiras p) {
+        jTxtIdBandeira.setText("");
+        jTxtNomeBandeira.setText("");
+        try {
+            if (p.getId() == null) {
+                throw new UnsupportedOperationException();
+            }
+            jTxtIdBandeira.setText(p.getId() + "");
+            jTxtNomeBandeira.setText(p.getTitle());
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void incluiPesquisa(Pessoas p) {
+        jTxtIdPessoa.setText("");
+        jTxtNomePessoa.setText("");
+        try {
+            if (p.getId() == null) {
+                throw new UnsupportedOperationException();
+            }
+            jTxtIdPessoa.setText(p.getId() + "");
+            jTxtNomePessoa.setText(p.getNome());
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void incluiPesquisa(Contas p) {
+        jTxtIdCtaVinculada.setText("");
+        jTxtNomeContaVinculada.setText("");
+        try {
+            if (p.getId() == null) {
+                throw new UnsupportedOperationException();
+            }
+            jTxtIdCtaVinculada.setText(p.getId() + "");
+            jTxtNomeContaVinculada.setText(p.getBank().getTitle() + ", agência " + p.getAgencia() + ", conta " + p.getConta());
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void incluiPesquisa(CartaoCredito p) {
+        tools.ClearFields.ClearFields(jPanel1);
+        try {
+            if (p.getId() == null) {
+                throw new UnsupportedOperationException();
+            }
+            jTxtId.setText(p.getId() + "");
+            incluiPesquisa(p.getIdBandeira());
+            incluiPesquisa(p.getIdConta());
+            incluiPesquisa(p.getIdPessoa());
+            jTxtNumero.setText(p.getNumero());
+            jTxtLimite.setText(tools.FormatNumbers.numUsToBr(p.getLimite()));
+            jFtxtDataVencimento.setText(tools.ManipulaData.dateBRstr(p.getDtVencimento()));
+            jCheckBox1.setSelected(p.getCancelado());
+            jComboBox1.setSelectedIndex(p.getTipo());
+        } catch (Exception e) {
+            
+        }
+    }
+
 }

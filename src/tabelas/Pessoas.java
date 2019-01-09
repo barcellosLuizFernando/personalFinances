@@ -8,6 +8,7 @@ package tabelas;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import personalfinances.LancamentosOrcamento;
 
 /**
  *
@@ -48,6 +50,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Pessoas.findByCreatedAt", query = "SELECT p FROM Pessoas p WHERE p.createdAt = :createdAt")
     , @NamedQuery(name = "Pessoas.findByUpdatedAt", query = "SELECT p FROM Pessoas p WHERE p.updatedAt = :updatedAt")})
 public class Pessoas implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPessoa")
+    private List<LancamentosOrcamento> lancamentosOrcamentoList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPessoa")
     private Collection<CartaoCredito> cartaoCreditoCollection;
@@ -357,6 +362,15 @@ public class Pessoas implements Serializable {
 
     public void setContasCollection(Collection<Contas> contasCollection) {
         this.contasCollection = contasCollection;
+    }
+
+    @XmlTransient
+    public List<LancamentosOrcamento> getLancamentosOrcamentoList() {
+        return lancamentosOrcamentoList;
+    }
+
+    public void setLancamentosOrcamentoList(List<LancamentosOrcamento> lancamentosOrcamentoList) {
+        this.lancamentosOrcamentoList = lancamentosOrcamentoList;
     }
 
 }
