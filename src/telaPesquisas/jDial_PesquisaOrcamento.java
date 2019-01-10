@@ -8,7 +8,7 @@ package telaPesquisas;
 import java.awt.event.MouseEvent;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
-import personalfinances.LancamentosOrcamento;
+import tabelas.LancamentosOrcamento;
 import tabelas.dao.LancamentosOrcamentoDAO;
 import telaCadastros.IntFrm_LancamentosOrcamento;
 

@@ -9,8 +9,11 @@ import java.awt.event.MouseEvent;
 import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 import tabelas.EconomicGroup;
+import tabelas.LancamentosCentroCusto;
 import tabelas.dao.EconomicGroupDAO;
+import tabelas.dao.LancamentosCentroCustoDAO;
 import telaCadastros.IntFrm_CadContas;
+import telaCadastros.IntFrm_CentroCusto;
 import telaCadastros.IntFrm_EconomicGroup;
 
 
@@ -18,15 +21,16 @@ import telaCadastros.IntFrm_EconomicGroup;
  *
  * @author ferna
  */
-public class jDial_PesquisaEconomicGroup extends javax.swing.JDialog {
+public class jDial_PesquisaCentroCusto extends javax.swing.JDialog {
 
     public static JInternalFrame pai;
     private EconomicGroupDAO economicGroupDAO;
+    private LancamentosCentroCustoDAO lancamentosCentroCustoDAO;
 
     /**
      * Creates new form NewJDialog
      */
-    public jDial_PesquisaEconomicGroup(JInternalFrame parent, boolean modal) {
+    public jDial_PesquisaCentroCusto(JInternalFrame parent, boolean modal) {
         this.pai = parent;
         this.setModal(modal);
         initComponents();
@@ -54,7 +58,7 @@ public class jDial_PesquisaEconomicGroup extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pesquisa Tipos de Lançamentos");
+        setTitle("Pesquisa Centros de Custos");
 
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -204,14 +208,30 @@ public class jDial_PesquisaEconomicGroup extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaEconomicGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaCentroCusto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaEconomicGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaCentroCusto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaEconomicGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaCentroCusto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jDial_PesquisaEconomicGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(jDial_PesquisaCentroCusto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -232,7 +252,7 @@ public class jDial_PesquisaEconomicGroup extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                jDial_PesquisaEconomicGroup dialog = new jDial_PesquisaEconomicGroup(pai, true);
+                jDial_PesquisaCentroCusto dialog = new jDial_PesquisaCentroCusto(pai, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -255,10 +275,10 @@ public class jDial_PesquisaEconomicGroup extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void incluiPesquisa() {
-        economicGroupDAO = new EconomicGroupDAO();
+        lancamentosCentroCustoDAO = new LancamentosCentroCustoDAO();
         DefaultTableModel lista = (DefaultTableModel) jTable1.getModel();
 
-        for (EconomicGroup m : economicGroupDAO.getEconomicGroup()) {
+        for (LancamentosCentroCusto m : lancamentosCentroCustoDAO.getCC()) {
             lista.addRow(new Object[]{
                 m.getId(),
                 m.getTitle(),
@@ -270,18 +290,15 @@ public class jDial_PesquisaEconomicGroup extends javax.swing.JDialog {
     private void enviaResultado() {
         int id = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
 
-        for (EconomicGroup m : economicGroupDAO.al_economicGroup) {
+        for (LancamentosCentroCusto m : lancamentosCentroCustoDAO.al_cc) {
             if (m.getId() == id) {
                 /**
                  * VERIFICA QUEM CHAMOU
                  */
-                if (pai instanceof IntFrm_EconomicGroup) {
-                    IntFrm_EconomicGroup frm = (IntFrm_EconomicGroup) pai;
-                    frm.recebeEconomicGroup(m);
-                } else if (pai instanceof IntFrm_CadContas){
-                    IntFrm_CadContas frm = (IntFrm_CadContas) pai;
-                    frm.recebeEconomicGroup(m);
-                }
+                if (pai instanceof IntFrm_CentroCusto) {
+                    IntFrm_CentroCusto frm = (IntFrm_CentroCusto) pai;
+                    frm.recebeCentroCusto(m);
+                } 
 
                 break;
 

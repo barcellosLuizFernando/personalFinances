@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JCheckBox;
-import personalfinances.LancamentosOrcamento;
+import tabelas.LancamentosOrcamento;
 import tabelas.LancamentosTipo;
 import tabelas.Pessoas;
 import tabelas.dao.LancamentosOrcamentoDAO;

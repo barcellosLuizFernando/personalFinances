@@ -34,20 +34,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "lancamentos_provisao")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "LancamentosProvisao.findAll", query = "SELECT l FROM LancamentosProvisao l")
-    , @NamedQuery(name = "LancamentosProvisao.findById", query = "SELECT l FROM LancamentosProvisao l WHERE l.id = :id")
-    , @NamedQuery(name = "LancamentosProvisao.findByIdPessoa", query = "SELECT l FROM LancamentosProvisao l WHERE l.idPessoa = :idPessoa")
-    , @NamedQuery(name = "LancamentosProvisao.findByIdFornecedor", query = "SELECT l FROM LancamentosProvisao l WHERE l.idFornecedor = :idFornecedor")
-    , @NamedQuery(name = "LancamentosProvisao.findByDescricao", query = "SELECT l FROM LancamentosProvisao l WHERE l.descricao = :descricao")
-    , @NamedQuery(name = "LancamentosProvisao.findByDocumento", query = "SELECT l FROM LancamentosProvisao l WHERE l.documento = :documento")
-    , @NamedQuery(name = "LancamentosProvisao.findByDtVencimento", query = "SELECT l FROM LancamentosProvisao l WHERE l.dtVencimento = :dtVencimento")
-    , @NamedQuery(name = "LancamentosProvisao.findByParcelas", query = "SELECT l FROM LancamentosProvisao l WHERE l.parcelas = :parcelas")
-    , @NamedQuery(name = "LancamentosProvisao.findByValor", query = "SELECT l FROM LancamentosProvisao l WHERE l.valor = :valor")
-    , @NamedQuery(name = "LancamentosProvisao.findByContratado", query = "SELECT l FROM LancamentosProvisao l WHERE l.contratado = :contratado")
-    , @NamedQuery(name = "LancamentosProvisao.findByLote", query = "SELECT l FROM LancamentosProvisao l WHERE l.lote = :lote")
-    , @NamedQuery(name = "LancamentosProvisao.findByCreatedAt", query = "SELECT l FROM LancamentosProvisao l WHERE l.createdAt = :createdAt")
-    , @NamedQuery(name = "LancamentosProvisao.findByUpdatedAt", query = "SELECT l FROM LancamentosProvisao l WHERE l.updatedAt = :updatedAt")})
+    @NamedQuery(name = "LancamentosProvisao.findAll", query = "SELECT l FROM LancamentosProvisao l")})
 public class LancamentosProvisao implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lancamentosProvisao")
+    private Collection<LancamentosProvisaoVencimentos> lancamentosProvisaoVencimentosCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -87,11 +78,12 @@ public class LancamentosProvisao implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+    @JoinColumn(name = "id_cc", referencedColumnName = "id")
+    @ManyToOne
+    private LancamentosCentroCusto idCc;
     @JoinColumn(name = "type", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private LancamentosTipo type;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lancamentosProvisao")
-    private Collection<LancamentosProvisaoVencimentos> lancamentosProvisaoVencimentosCollection;
 
     public LancamentosProvisao() {
     }
@@ -207,21 +199,20 @@ public class LancamentosProvisao implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public LancamentosCentroCusto getIdCc() {
+        return idCc;
+    }
+
+    public void setIdCc(LancamentosCentroCusto idCc) {
+        this.idCc = idCc;
+    }
+
     public LancamentosTipo getType() {
         return type;
     }
 
     public void setType(LancamentosTipo type) {
         this.type = type;
-    }
-
-    @XmlTransient
-    public Collection<LancamentosProvisaoVencimentos> getLancamentosProvisaoVencimentosCollection() {
-        return lancamentosProvisaoVencimentosCollection;
-    }
-
-    public void setLancamentosProvisaoVencimentosCollection(Collection<LancamentosProvisaoVencimentos> lancamentosProvisaoVencimentosCollection) {
-        this.lancamentosProvisaoVencimentosCollection = lancamentosProvisaoVencimentosCollection;
     }
 
     @Override
@@ -247,6 +238,15 @@ public class LancamentosProvisao implements Serializable {
     @Override
     public String toString() {
         return "tabelas.LancamentosProvisao[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Collection<LancamentosProvisaoVencimentos> getLancamentosProvisaoVencimentosCollection() {
+        return lancamentosProvisaoVencimentosCollection;
+    }
+
+    public void setLancamentosProvisaoVencimentosCollection(Collection<LancamentosProvisaoVencimentos> lancamentosProvisaoVencimentosCollection) {
+        this.lancamentosProvisaoVencimentosCollection = lancamentosProvisaoVencimentosCollection;
     }
     
 }

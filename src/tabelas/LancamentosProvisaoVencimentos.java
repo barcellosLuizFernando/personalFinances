@@ -6,7 +6,6 @@
 package tabelas;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,12 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,11 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "lancamentos_provisao_vencimentos")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "LancamentosProvisaoVencimentos.findAll", query = "SELECT l FROM LancamentosProvisaoVencimentos l")
-    , @NamedQuery(name = "LancamentosProvisaoVencimentos.findById", query = "SELECT l FROM LancamentosProvisaoVencimentos l WHERE l.lancamentosProvisaoVencimentosPK.id = :id")
-    , @NamedQuery(name = "LancamentosProvisaoVencimentos.findByIdProvisao", query = "SELECT l FROM LancamentosProvisaoVencimentos l WHERE l.lancamentosProvisaoVencimentosPK.idProvisao = :idProvisao")
-    , @NamedQuery(name = "LancamentosProvisaoVencimentos.findByDate", query = "SELECT l FROM LancamentosProvisaoVencimentos l WHERE l.date = :date")
-    , @NamedQuery(name = "LancamentosProvisaoVencimentos.findByValue", query = "SELECT l FROM LancamentosProvisaoVencimentos l WHERE l.value = :value")})
+    @NamedQuery(name = "LancamentosProvisaoVencimentos.findAll", query = "SELECT l FROM LancamentosProvisaoVencimentos l")})
 public class LancamentosProvisaoVencimentos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,13 +41,9 @@ public class LancamentosProvisaoVencimentos implements Serializable {
     @Basic(optional = false)
     @Column(name = "value")
     private double value;
-    @OneToMany(mappedBy = "idProvisao")
-    private Collection<LancamentosCartaoCredito> lancamentosCartaoCreditoCollection;
     @JoinColumn(name = "id_provisao", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private LancamentosProvisao lancamentosProvisao;
-    @OneToMany(mappedBy = "idProvisao")
-    private Collection<Lancamentos> lancamentosCollection;
 
     public LancamentosProvisaoVencimentos() {
     }
@@ -97,30 +86,12 @@ public class LancamentosProvisaoVencimentos implements Serializable {
         this.value = value;
     }
 
-    @XmlTransient
-    public Collection<LancamentosCartaoCredito> getLancamentosCartaoCreditoCollection() {
-        return lancamentosCartaoCreditoCollection;
-    }
-
-    public void setLancamentosCartaoCreditoCollection(Collection<LancamentosCartaoCredito> lancamentosCartaoCreditoCollection) {
-        this.lancamentosCartaoCreditoCollection = lancamentosCartaoCreditoCollection;
-    }
-
     public LancamentosProvisao getLancamentosProvisao() {
         return lancamentosProvisao;
     }
 
     public void setLancamentosProvisao(LancamentosProvisao lancamentosProvisao) {
         this.lancamentosProvisao = lancamentosProvisao;
-    }
-
-    @XmlTransient
-    public Collection<Lancamentos> getLancamentosCollection() {
-        return lancamentosCollection;
-    }
-
-    public void setLancamentosCollection(Collection<Lancamentos> lancamentosCollection) {
-        this.lancamentosCollection = lancamentosCollection;
     }
 
     @Override

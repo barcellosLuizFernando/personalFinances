@@ -20,7 +20,8 @@
     <class>tabelas.LancamentosTipo</class>
     <class>tabelas.LancamentosProvisaoVencimentos</class>
     <class>tabelas.EconomicGroup</class>
-    <class>personalfinances.LancamentosOrcamento</class>
+    <class>tabelas.LancamentosCentroCusto</class>
+    <class>tabelas.LancamentosOrcamento</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.2.3:3317/personal_finances?useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
